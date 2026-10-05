@@ -51,11 +51,195 @@ export default function LoginPage() {
 
   return (
     <main className="auth-root login-page">
+      <div className="login-ornaments" aria-hidden="true">
+        <div className="login-ornament login-ornament--rings">
+          {[44, 68, 92, 116, 140, 164].map(size => (
+            <span key={size} style={{ width: size, height: size }} />
+          ))}
+        </div>
+        <div className="login-ornament login-ornament--stripes" />
+        <div className="login-ornament login-ornament--dots" />
+        <svg
+          className="login-ornament login-ornament--chevrons"
+          viewBox="0 0 76 220"
+          fill="none"
+        >
+          {[12, 62, 112, 162].map(y => (
+            <path
+              key={y}
+              d={`M8 ${y + 22} 38 ${y - 8} 68 ${y + 22} 59 ${y + 31} 38 ${y + 10} 17 ${y + 31} 8 ${y + 22}Z`}
+            />
+          ))}
+        </svg>
+      </div>
+      <style>{`
+        .login-page .login-brand {
+          gap: 20px;
+          font-size: 40px;
+        }
+
+        .login-page .login-brand-mark {
+          width: 88px;
+          height: 88px;
+          border-radius: 22px;
+        }
+
+        .login-ornaments {
+          position: absolute;
+          z-index: 0;
+          inset: 0;
+          overflow: hidden;
+          pointer-events: none;
+        }
+
+        .login-ornament {
+          position: absolute;
+          display: block;
+          will-change: transform;
+        }
+
+        .login-ornament--rings {
+          top: 12%;
+          left: 2%;
+          width: 170px;
+          height: 170px;
+          animation: login-rings-drift 15s ease-in-out infinite alternate;
+        }
+
+        .login-ornament--rings span {
+          position: absolute;
+          top: 50%;
+          left: 0;
+          border: 1.5px solid rgba(39, 99, 189, 0.27);
+          border-radius: 50%;
+          transform: translate(-50%, -50%);
+        }
+
+        .login-ornament--stripes {
+          top: 8%;
+          right: 7%;
+          width: clamp(130px, 17vw, 210px);
+          aspect-ratio: 1;
+          border-radius: 50%;
+          background: repeating-linear-gradient(
+            45deg,
+            rgba(133, 166, 103, 0.36) 0 6px,
+            transparent 6px 14px
+          );
+          -webkit-mask-image: radial-gradient(circle, #000 69%, transparent 70%);
+          mask-image: radial-gradient(circle, #000 69%, transparent 70%);
+          animation: login-stripes-drift 19s ease-in-out infinite alternate;
+        }
+
+        .login-ornament--dots {
+          bottom: 6%;
+          left: 8%;
+          width: 190px;
+          height: 126px;
+          background-image: radial-gradient(rgba(39, 61, 71, 0.46) 1.7px, transparent 1.8px);
+          background-size: 23px 23px;
+          animation: login-dots-drift 17s ease-in-out infinite alternate;
+        }
+
+        .login-ornament--chevrons {
+          right: 4%;
+          bottom: 12%;
+          width: 68px;
+          height: 200px;
+          overflow: visible;
+          stroke: rgba(39, 61, 71, 0.6);
+          stroke-width: 1.5;
+          animation: login-chevrons-drift 13s ease-in-out infinite alternate;
+        }
+
+        @keyframes login-rings-drift {
+          from { transform: translate3d(0, -8px, 0) rotate(-4deg); }
+          to { transform: translate3d(18px, 13px, 0) rotate(5deg); }
+        }
+
+        @keyframes login-stripes-drift {
+          from { transform: translate3d(0, 8px, 0) rotate(-7deg); }
+          to { transform: translate3d(-18px, -14px, 0) rotate(8deg); }
+        }
+
+        @keyframes login-dots-drift {
+          from { transform: translate3d(-6px, 0, 0); }
+          to { transform: translate3d(12px, -12px, 0); }
+        }
+
+        @keyframes login-chevrons-drift {
+          from { transform: translate3d(0, 8px, 0); }
+          to { transform: translate3d(-8px, -13px, 0); }
+        }
+
+        @media (max-width: 900px) {
+          .login-ornament--rings {
+            top: 7%;
+            left: -25px;
+          }
+
+          .login-ornament--stripes {
+            top: 28%;
+            right: -45px;
+            width: 135px;
+          }
+
+          .login-ornament--dots {
+            bottom: 2%;
+            left: 3%;
+          }
+
+          .login-ornament--chevrons {
+            right: -8px;
+            bottom: 3%;
+          }
+        }
+
+        @media (max-width: 540px) {
+          .login-page .login-brand {
+            gap: 15px;
+            font-size: 30px;
+          }
+
+          .login-page .login-brand-mark {
+            width: 68px;
+            height: 68px;
+          }
+
+          .login-ornament--rings {
+            top: 2%;
+            left: -52px;
+          }
+
+          .login-ornament--stripes {
+            top: 18%;
+            right: -70px;
+            width: 120px;
+          }
+
+          .login-ornament--dots {
+            bottom: 0;
+            left: -28px;
+          }
+
+          .login-ornament--chevrons {
+            right: -30px;
+            bottom: 0;
+          }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .login-ornament {
+            animation: none !important;
+            will-change: auto;
+          }
+        }
+      `}</style>
       <div className="login-layout">
         <section className="login-intro" aria-labelledby="login-intro-title">
           <div className="login-brand" aria-label="PlacementHub">
             <span className="login-brand-mark" aria-hidden="true">
-              <BriefcaseBusiness size={20} strokeWidth={2.2} />
+              <BriefcaseBusiness size={38} strokeWidth={2.2} />
             </span>
             <span>Placement<span className="login-brand-accent">Hub</span></span>
           </div>
