@@ -1,7 +1,14 @@
-// src/pages/LoginPage.jsx
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Mail, Lock, Eye, EyeOff, AlertCircle, Sparkles } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
+import {
+  AlertCircle,
+  ArrowRight,
+  BriefcaseBusiness,
+  Eye,
+  EyeOff,
+  Lock,
+  Mail,
+} from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
 import { CREDENTIALS } from '../data/jobsData';
@@ -10,7 +17,6 @@ export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPw, setShowPw] = useState(false);
-  const [remember, setRemember] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -32,52 +38,69 @@ export default function LoginPage() {
       showToast('Welcome back, Alex! 👋', 'success');
       navigate('/dashboard');
     } else {
-      setError('Invalid email or password. Try admin@placementhub.com / admin123');
+      setError('Invalid email or password. Try the demo account below.');
+      setLoading(false);
     }
-    setLoading(false);
+  };
+
+  const fillDemoCredentials = () => {
+    setEmail(CREDENTIALS.email);
+    setPassword(CREDENTIALS.password);
+    setError('');
   };
 
   return (
-    <div className="auth-root">
-      <div className="auth-container">
-        {/* Brand header */}
-        <div style={{ textAlign: 'center', marginBottom: 8 }}>
-          <div style={{
-            width: 56,
-            height: 56,
-            borderRadius: 'var(--radius-lg)',
-            background: 'linear-gradient(135deg, var(--primary), var(--accent))',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            fontSize: 26,
-            fontWeight: 800,
-            color: '#fff',
-            margin: '0 auto 16px',
-            boxShadow: '0 8px 32px rgba(59, 130, 246, 0.4)',
-          }}>P</div>
-          <h1 style={{ fontSize: 32, fontWeight: 800, color: 'var(--text-primary)', letterSpacing: '-1px', marginBottom: 8 }}>
-            Welcome back
-          </h1>
-          <p style={{ fontSize: 15, color: 'var(--text-secondary)' }}>
-            Sign in to your PlacementHub account
-          </p>
-        </div>
+    <main className="auth-root login-page">
+      <div className="login-layout">
+        <section className="login-intro" aria-labelledby="login-intro-title">
+          <div className="login-brand" aria-label="PlacementHub">
+            <span className="login-brand-mark" aria-hidden="true">
+              <BriefcaseBusiness size={20} strokeWidth={2.2} />
+            </span>
+            <span>Placement<span className="login-brand-accent">Hub</span></span>
+          </div>
 
-        {/* Glass card */}
-        <div className="auth-glass-card">
-          <form className="auth-form-card" onSubmit={handleLogin} noValidate>
+          <div className="login-intro-copy">
+            <p className="login-eyebrow">YOUR CAREER, IN MOTION</p>
+            <h1 id="login-intro-title">
+              Make your next
+              <br />
+              move <span>count.</span>
+            </h1>
+            <p className="login-intro-description">
+              Find opportunities, save the roles that feel right, and keep track
+              of every application—all in one place.
+            </p>
+          </div>
+
+          <div className="login-workflow" aria-label="PlacementHub features">
+            <span>Explore jobs</span>
+            <i aria-hidden="true" />
+            <span>Save roles</span>
+            <i aria-hidden="true" />
+            <span>Track applications</span>
+          </div>
+        </section>
+
+        <section className="auth-glass-card login-card" aria-labelledby="login-title">
+          <div className="login-card-heading">
+            <p className="login-card-kicker">WELCOME BACK</p>
+            <h2 id="login-title">Sign in to your account</h2>
+            <p>Pick up where your job search left off.</p>
+          </div>
+
+          <form className="auth-form-card login-form" onSubmit={handleLogin} noValidate>
             {error && (
-              <div className="auth-error">
-                <AlertCircle size={16} />
-                {error}
+              <div className="auth-error login-error" role="alert">
+                <AlertCircle size={17} aria-hidden="true" />
+                <span>{error}</span>
               </div>
             )}
 
             <div className="auth-form-group">
               <label htmlFor="login-email">Email address</label>
-              <div className="auth-input-wrap">
-                <Mail size={16} />
+              <div className="auth-input-wrap login-input-wrap">
+                <Mail size={17} aria-hidden="true" />
                 <input
                   id="login-email"
                   type="email"
@@ -91,8 +114,8 @@ export default function LoginPage() {
 
             <div className="auth-form-group">
               <label htmlFor="login-password">Password</label>
-              <div className="auth-input-wrap">
-                <Lock size={16} />
+              <div className="auth-input-wrap login-input-wrap">
+                <Lock size={17} aria-hidden="true" />
                 <input
                   id="login-password"
                   type={showPw ? 'text' : 'password'}
@@ -107,64 +130,37 @@ export default function LoginPage() {
                   onClick={() => setShowPw(p => !p)}
                   aria-label={showPw ? 'Hide password' : 'Show password'}
                 >
-                  {showPw ? <EyeOff size={16} /> : <Eye size={16} />}
+                  {showPw ? <EyeOff size={17} /> : <Eye size={17} />}
                 </button>
               </div>
             </div>
 
-            <div className="auth-remember-row">
-              <label className="auth-remember">
-                <input
-                  type="checkbox"
-                  checked={remember}
-                  onChange={e => setRemember(e.target.checked)}
-                  id="remember-me"
-                />
-                Remember me
-              </label>
-              <button type="button" className="auth-forgot">Forgot password?</button>
-            </div>
-
             <button
               type="submit"
-              className="btn-primary"
+              className="btn-primary login-submit"
               id="login-submit"
               disabled={loading}
-              style={{ opacity: loading ? 0.8 : 1 }}
             >
-              {loading ? 'Signing in...' : 'Sign In'}
+              <span>{loading ? 'Signing in…' : 'Sign in'}</span>
+              {!loading && <ArrowRight size={18} aria-hidden="true" />}
             </button>
           </form>
 
-          <div className="auth-divider">or</div>
-
-          <div style={{
-            background: 'rgba(255, 255, 255, 0.03)',
-            border: '1px solid var(--border)',
-            borderRadius: 'var(--radius-lg)',
-            padding: '14px 16px',
-            fontSize: 13,
-            color: 'var(--text-secondary)',
-            textAlign: 'center',
-            lineHeight: 1.6,
-          }}>
-            🔑 <strong>Demo credentials:</strong><br />
-            <span style={{ color: 'var(--primary)', fontWeight: 600 }}>admin@placementhub.com</span>
-            {' / '}
-            <span style={{ color: 'var(--primary)', fontWeight: 600 }}>admin123</span>
+          <div className="login-demo">
+            <div>
+              <p className="login-demo-title">Just exploring?</p>
+              <p className="login-demo-description">Use the demo account to take a look around.</p>
+            </div>
+            <button type="button" className="login-demo-action" onClick={fillDemoCredentials}>
+              Use demo account
+            </button>
           </div>
 
-          <div className="auth-switch" style={{ marginTop: 20 }}>
-            Don't have an account?{' '}
-            <span onClick={() => navigate('/register')}>Create one free</span>
-          </div>
-        </div>
-
-        {/* Footer note */}
-        <p style={{ textAlign: 'center', fontSize: 12, color: 'var(--text-muted)', marginTop: 12 }}>
-          By continuing, you agree to our <span style={{ color: 'var(--primary)' }}>Terms of Service</span> and <span style={{ color: 'var(--primary)' }}>Privacy Policy</span>
-        </p>
+          <p className="auth-switch login-register">
+            New to PlacementHub? <Link to="/register">Create an account</Link>
+          </p>
+        </section>
       </div>
-    </div>
+    </main>
   );
 }
